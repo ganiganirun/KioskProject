@@ -38,6 +38,11 @@ public class Main {
             System.out.println("0. 키오스크 종료\n");
 
 
+            menu = scn.nextInt();
+            scn.nextLine();
+
+
+
         }
     }
 }
