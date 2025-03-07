@@ -24,5 +24,4 @@ public class MenuItem {
         return explan;
     }
 
-
 }
