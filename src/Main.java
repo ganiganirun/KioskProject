@@ -39,6 +39,7 @@ public class Main {
 
             while (true) {
                 try {
+                    System.out.println("메뉴를 선택해 주십쇼.");
                     menu = scn.nextInt();
                     scn.nextLine();
                     break;
