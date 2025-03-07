@@ -1,8 +1,8 @@
 public class MenuItem {
     // 속성
-    String buger;
-    long price;
-    String explan;
+    private String buger;
+    private long price;
+    private String explan;
 
     // 생성자
     public MenuItem(String buger, long price, String explan){
