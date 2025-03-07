@@ -4,9 +4,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        // 실행 시 햄버거 메뉴가 표시되고, 이후 스캐너를 통해 메뉴를 선택
-        // 제시된 메뉴 중 입력받은 숫자에 따라 다른 로직 실행
-        // 특정 번호가 입력되면 프로그램 종료
+        //MenuItem 클래스를 활용하여 햄버거 메뉴를 출력하시오
+        // 객체를 생성하고 리스트에 아이템을 추가하시오.
 
         Scanner scn = new Scanner(System.in);
         boolean flag = true;
