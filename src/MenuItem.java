@@ -1,11 +1,11 @@
 public class MenuItem {
     // 속성
     private String buger;
-    private long price;
+    private int price;
     private String explan;
 
     // 생성자
-    public MenuItem(String buger, long price, String explan){
+    public MenuItem(String buger, int price, String explan){
         this.buger = buger;
         this.price = price;
         this.explan = explan;
@@ -16,7 +16,7 @@ public class MenuItem {
         return buger;
     }
 
-    public long getPrice(){
+    public int getPrice(){
         return price;
     }
 
