@@ -37,9 +37,15 @@ public class Main {
                     "맛의 조화를 풍성하게 만든 투움바 슈림프 버거");
             System.out.println("0. 키오스크 종료\n");
 
-
-            menu = scn.nextInt();
-            scn.nextLine();
+            while (true) {
+                try {
+                    menu = scn.nextInt();
+                    scn.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("숫자만 입력해주세요.");
+                }
+            }
 
 
 
