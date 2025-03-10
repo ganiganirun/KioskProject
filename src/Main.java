@@ -46,11 +46,21 @@ public class Main {
 
             System.out.println();
 
-            if(menu == 0){
-                flag = false;
-            }else if(menu == 1 || menu == 2 || menu == 3 || menu == 4 || menu == 5 || menu == 6) {
-                System.out.println(menuItemList.get(menu-1).getBuger().trim() + " " +  menuItemList.get(menu-1).getPrice()+"원 입니다.");
-            }else {
+//            if(menu == 0){
+//                flag = false;
+//            }else if(menu == 1 || menu == 2 || menu == 3 || menu == 4 || menu == 5 || menu == 6) {
+//                System.out.println(menuItemList.get(menu-1).getBuger().trim() + " " +  menuItemList.get(menu-1).getPrice()+"원 입니다.");
+//            }else {
+//                System.out.println("잘못 선택하셨습니다.");
+//            }
+
+            try {
+                if(menu == 0){
+                    flag = false;
+                }else {
+                    System.out.println(menuItemList.get(menu-1).getBuger().trim() + " " +  menuItemList.get(menu-1).getPrice()+"원 입니다.");
+                }
+            }catch (Exception e){
                 System.out.println("잘못 선택하셨습니다.");
             }
 
