@@ -46,17 +46,14 @@ public class Main {
 
             System.out.println();
 
-            switch (menu){
-                case 0 -> flag = false;
-                case 1 -> System.out.println("빅맥 런치 세트 6,300원 입니다.");
-                case 2 -> System.out.println("상하이 런치 세트 6,300원 입니다.");
-                case 3 -> System.out.println("맥크리스피 디럭스 런치 7,500세트 원 입니다.");
-                case 4 -> System.out.println("1955 런치 세트 7,000원 입니다.");
-                case 5 -> System.out.println("상하이투움바 런치 8,200세트 원 입니다.");
-                case 6 -> System.out.println("슈비투움바 런치 세트 8,600원 입니다.");
-                default -> System.out.println("잘못 선택하셨습니다.");
-
+            if(menu == 0){
+                flag = false;
+            }else if(menu == 1 || menu == 2 || menu == 3 || menu == 4 || menu == 5 || menu == 6) {
+                System.out.println(menuItemList.get(menu-1).getBuger().trim() + " " +  menuItemList.get(menu-1).getPrice()+"원 입니다.");
+            }else {
+                System.out.println("잘못 선택하셨습니다.");
             }
+
 
             System.out.println();
 
