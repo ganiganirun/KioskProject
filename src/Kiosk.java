@@ -1,46 +1,76 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.String.format;
+
 public class Kiosk {
 
     private Scanner scn = new Scanner(System.in);
     private boolean flag = true;
-    private int menu;
-    private List<MenuItem> menuItemList = new ArrayList<>();
+    private int choicCategory;
+    private int choicMenu;
+    private List<Menu> mainMenuItmes = new ArrayList<>();
 
-
-    public void addMenu(){
-
-        menuItemList.add(new MenuItem("Big Mac® Meal                            ",6300,"참깨빵위에 순쇠고기 패티 두장 특별한 소스 양상추 치즈 피클 양파까지~"));
-        menuItemList.add(new MenuItem("McSpicy® Shanghai Burger Meal            ",6300,"쌀가루가 더해져 더 바삭해진 100% 닭가슴살 패티가 들어간 버거"));
-        menuItemList.add(new MenuItem("McCrispy™ Deluxe Burger Meal             ",7500,"100% 통닭다리살 겉바속촉 케이준 치킨 패티에 브리오쉬 번을 사용한 버거"));
-        menuItemList.add(new MenuItem("1955® Burger Meal                        ",7000,"10 : 1 패티와 그릴드 어니언까지 맥도날드가 처음 생긴 1955년의 맛을 담은 버거"));
-        menuItemList.add(new MenuItem("McSpicy® Shanghai Spicy Creamy Sauce Meal",8200,"쌀가루가 더해져 더 바삭해진 100% 닭가슴살 패티에 부드러운 크림 베이스에 매콤함이 가득!"));
-        menuItemList.add(new MenuItem("Shrimp Beef Spicy Creamy Sauce Meal      ",8600,"탱글한 통 새우살에 비프 패티에 부드러운 크림 베이스에 깊은 매콤함이 가득!"));
-
+    public Kiosk(){
+        addCategory();
     }
 
+    private void addCategory(){
+        mainMenuItmes.add(new Menu("Burger"));
+        mainMenuItmes.add(new Menu("Side"));
+        mainMenuItmes.add(new Menu("Dessert"));
+    }
 
     public void start(){
 
-        addMenu();
-
         while (flag){
-            System.out.println("[ McDonald Lunch Menu]");
+
+            System.out.println("[ McDonald Menu]");
             int i = 1;
-            for(MenuItem menuItem : menuItemList){
-                System.out.println(i + ". " + menuItem.getBuger() + " | " + menuItem.getPrice() + "원 | " + menuItem.getExplan());
+            for( Menu menuItem : mainMenuItmes){
+                System.out.println(i+". " +menuItem.getCategory());
                 i += 1;
             }
-
             System.out.println("0. 키오스크 종료\n");
 
             while (true) {
                 try {
                     System.out.println("메뉴를 선택해 주십쇼.");
-                    menu = scn.nextInt();
+                    choicCategory = scn.nextInt();
+                    scn.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("숫자만 입력해주세요.");
+                    scn.nextLine();
+                }
+            }
+
+
+            try {
+                if(choicCategory == 0){
+                    break;
+                }else {
+                    System.out.println("[ McDonald Menu ]");
+                    i = 1;
+                    for(MenuItem menuItem : mainMenuItmes.get(choicCategory-1).getMenuItemList()){
+                        System.out.println(i + ". " + menuItem.toString());
+                        i += 1;
+                    }
+                    System.out.println("0. 카테고리로 돌아가기\n");
+
+                }
+            }catch (Exception e){
+                System.out.println("잘못 선택하셨습니다.");
+            }
+
+
+            while (true) {
+                try {
+                    System.out.println("메뉴를 선택해 주십쇼.");
+                    choicMenu = scn.nextInt();
                     scn.nextLine();
                     break;
                 } catch (InputMismatchException e) {
@@ -51,19 +81,12 @@ public class Kiosk {
 
             System.out.println();
 
-//            if(menu == 0){
-//                flag = false;
-//            }else if(menu == 1 || menu == 2 || menu == 3 || menu == 4 || menu == 5 || menu == 6) {
-//                System.out.println(menuItemList.get(menu-1).getBuger().trim() + " " +  menuItemList.get(menu-1).getPrice()+"원 입니다.");
-//            }else {
-//                System.out.println("잘못 선택하셨습니다.");
-//            }
 
             try {
-                if(menu == 0){
-                    flag = false;
+                if(choicMenu == 0){
+                    continue;
                 }else {
-                    System.out.println(menuItemList.get(menu-1).getBuger().trim() + " " +  menuItemList.get(menu-1).getPrice()+"원 입니다.");
+                    System.out.println(mainMenuItmes.get(choicCategory-1).getMenuItemList().get(choicMenu-1).getBuger().trim() + " " +  mainMenuItmes.get(choicCategory-1).getMenuItemList().get(choicMenu-1).getPrice()+"원 입니다.");
                 }
             }catch (Exception e){
                 System.out.println("잘못 선택하셨습니다.");
