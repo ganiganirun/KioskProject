@@ -25,4 +25,8 @@ public class MenuItem {
     }
 
 
+    public String toString(){
+        return String.format("%-40s | %d 원 | %s", this.buger, this.price, this.explan);
+    }
+
 }
