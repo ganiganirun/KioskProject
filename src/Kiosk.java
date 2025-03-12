@@ -9,9 +9,10 @@ public class Kiosk {
     private boolean flag = true;
     private int choicCategory;
     private int choicMenu;
-    private List<Menu> mainMenuItmes = new ArrayList<>();
+    private List<Menu> mainMenuItmes;
 
     public Kiosk(){
+        mainMenuItmes = new ArrayList<>();
         addCategory();
     }
 
@@ -41,50 +42,40 @@ public class Kiosk {
 
             System.out.println("0. 키오스크 종료\n");
 
-            choicCategory = inputManager();
+            choicCategory = inputManager(mainMenuItmes.size());
 
             List<MenuItem> menuItem =  mainMenuItmes.get(choicCategory-1).getMenuItemList();
 
-            try {
-                if(choicCategory == 0){
-                    scn.close();
-                    break;
-                } else if (choicCategory == 4) {
-                    System.out.println("[ Order Menu ]");
+            if(choicCategory == 0){
+                scn.close();
+                break;
+            } else if (choicCategory == 4) {
+                System.out.println("[ Order Menu ]");
 
-                    printMenuItemList(menuItem);
-                    System.out.println();
+                printMenuItemList(menuItem);
+                System.out.println();
 
-                    continue;
-                } else if (choicCategory == 5) {
-                    mainMenuItmes.get(3).removeOrder();
-                    continue;
-                } else {
-                    System.out.println("[ McDonald Menu ]");
+                continue;
+            } else if (choicCategory == 5) {
+                mainMenuItmes.get(3).removeOrder();
+                continue;
+            } else {
+                System.out.println("[ McDonald Menu ]");
 
-                    printMenuItemList(menuItem);
+                printMenuItemList(menuItem);
 
-                    System.out.println("0. 카테고리로 돌아가기\n");
-                }
-            }catch (IndexOutOfBoundsException e){
-                System.out.println("잘못 선택하셨습니다.");
+                System.out.println("0. 카테고리로 돌아가기\n");
             }
-
-            choicMenu = inputManager();
+            choicMenu = inputManager(menuItem.size());
 
             System.out.println();
 
-            try {
-                if(choicMenu == 0){
-                    continue;
-                } else {
-                    System.out.println( "선택한 메뉴 -> " + menuItem.get(choicMenu-1).toString());
+            if(choicMenu == 0){
+                continue;
+            } else {
+                System.out.println( "선택한 메뉴 -> " + menuItem.get(choicMenu-1).toString());
 
-
-                    mainMenuItmes.get(3).addOrder(menuItem.get(choicMenu-1));
-                }
-            }catch (IndexOutOfBoundsException e){
-                System.out.println("잘못 선택하셨습니다.");
+                mainMenuItmes.get(3).addOrder(menuItem.get(choicMenu-1));
             }
 
             System.out.println();
@@ -92,22 +83,27 @@ public class Kiosk {
         }
     }
 
-    private static int inputManager(){
+    public static int inputManager(int size){
         int choic;
         while (true) {
             try {
                 System.out.println("메뉴를 선택해 주십쇼.");
                 choic= scn.nextInt();
                 scn.nextLine();
+                if(choic > size) {
+                    throw new IndexOutOfBoundsException();
+                }
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("숫자만 입력해주세요.");
+                System.out.println("숫자만 입력해주세요.\n");
                 scn.nextLine();
+            } catch (IndexOutOfBoundsException e){
+                System.out.println("잘못 선택하셨습니다.\n");
             }
         }
         return choic;
     }
-    private static void printMenuItemList(List<MenuItem> menuItem){
+    public static void printMenuItemList(List<MenuItem> menuItem){
         int i = 1;
         for(MenuItem menu : menuItem){
             System.out.println(i + ". " + menu.toString());

@@ -24,9 +24,6 @@ public class MenuItem {
 //        return explan;
 //    }
 
-
-
-
     public String toString(){
         return String.format("%-20s | %d 원 | %s", this.buger, this.price, this.explan);
     }
