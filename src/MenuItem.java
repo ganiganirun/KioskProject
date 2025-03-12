@@ -12,21 +12,23 @@ public class MenuItem {
     }
 
     // 기능
-    public String getBuger(){
-        return buger;
-    }
+//    public String getBuger(){
+//        return buger;
+//    }
+//
+//    public int getPrice(){
+//        return price;
+//    }
+//
+//    public String getExplan(){
+//        return explan;
+//    }
 
-    public int getPrice(){
-        return price;
-    }
 
-    public String getExplan(){
-        return explan;
-    }
 
 
     public String toString(){
-        return String.format("%-40s | %d 원 | %s", this.buger, this.price, this.explan);
+        return String.format("%-20s | %d 원 | %s", this.buger, this.price, this.explan);
     }
 
 }
