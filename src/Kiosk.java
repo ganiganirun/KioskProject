@@ -4,11 +4,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.String.format;
-
 public class Kiosk {
-
-    private Scanner scn = new Scanner(System.in);
+    private static Scanner scn = new Scanner(System.in);
     private boolean flag = true;
     private int choicCategory;
     private int choicMenu;
@@ -29,75 +26,67 @@ public class Kiosk {
         while (flag){
 
             System.out.println("[ McDonald Menu]");
+
             int i = 1;
-            for( Menu menuItem : mainMenuItmes){
-                System.out.println(i+". " +menuItem.getCategory());
+            for( Menu menu : mainMenuItmes){
+                System.out.println(i+". " +menu.getCategory());
                 i += 1;
             }
             System.out.println("0. 키오스크 종료\n");
 
-            while (true) {
-                try {
-                    System.out.println("메뉴를 선택해 주십쇼.");
-                    choicCategory = scn.nextInt();
-                    scn.nextLine();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("숫자만 입력해주세요.");
-                    scn.nextLine();
-                }
-            }
+            choicCategory = inputManager();
 
+            List<MenuItem> menuItem =  mainMenuItmes.get(choicCategory-1).getMenuItemList();
 
             try {
                 if(choicCategory == 0){
+                    scn.close();
                     break;
                 }else {
                     System.out.println("[ McDonald Menu ]");
                     i = 1;
-                    for(MenuItem menuItem : mainMenuItmes.get(choicCategory-1).getMenuItemList()){
-                        System.out.println(i + ". " + menuItem.toString());
+                    for(MenuItem menu : menuItem){
+                        System.out.println(i + ". " + menu.toString());
                         i += 1;
                     }
                     System.out.println("0. 카테고리로 돌아가기\n");
-
                 }
-            }catch (Exception e){
+            }catch (IndexOutOfBoundsException e){
                 System.out.println("잘못 선택하셨습니다.");
             }
 
-
-            while (true) {
-                try {
-                    System.out.println("메뉴를 선택해 주십쇼.");
-                    choicMenu = scn.nextInt();
-                    scn.nextLine();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("숫자만 입력해주세요.");
-                    scn.nextLine();
-                }
-            }
+            choicMenu = inputManager();
 
             System.out.println();
-
 
             try {
                 if(choicMenu == 0){
                     continue;
                 }else {
-                    System.out.println(mainMenuItmes.get(choicCategory-1).getMenuItemList().get(choicMenu-1).getBuger().trim() + " " +  mainMenuItmes.get(choicCategory-1).getMenuItemList().get(choicMenu-1).getPrice()+"원 입니다.");
+                    System.out.println( "선택한 메뉴 -> " + menuItem.get(choicMenu-1).toString());
                 }
-            }catch (Exception e){
+            }catch (IndexOutOfBoundsException e){
                 System.out.println("잘못 선택하셨습니다.");
             }
 
-
             System.out.println();
-
-
-
-
         }
+    }
+
+    private static int inputManager(){
+        int choic;
+        while (true) {
+            try {
+                System.out.println("메뉴를 선택해 주십쇼.");
+                choic= scn.nextInt();
+                scn.nextLine();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("숫자만 입력해주세요.");
+                scn.nextLine();
+            }
+        }
+
+        return choic;
     }
 }
