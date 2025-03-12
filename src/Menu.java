@@ -39,13 +39,20 @@ public class Menu {
                 menuItemList.add(new MenuItem("Chocolate Sundae", 8600, "신선한 우유로 만든 아이스크림에 달콤한 초콜렛 시럽이 입안 가득."));
                 menuItemList.add(new MenuItem("Strawberry Sundae", 8600, "신선한 우유와 딸기가 아이스크림으로 만났다!"));
                 menuItemList.add(new MenuItem("Ice Cream Cone", 8600, "신선한 우유로 만든 부드러운 아이스크림 콘."));
-
             }
+            case "Orders" -> menuItemList = new ArrayList<>();
+            case "Cancel" -> menuItemList = new ArrayList<>();
             default -> System.out.println("카테고리 내에서만 골라주세요");
         }
     }
 
+    public void removeOrder (){
+        menuItemList.clear();
+    }
 
+    public void addOrder (MenuItem menuItems){
+        menuItemList.add(menuItems);
+    }
 
     public List<MenuItem> getMenuItemList() {
         return menuItemList;
@@ -54,6 +61,8 @@ public class Menu {
     public String getCategory(){
         return category;
     }
+
+
 
 
 }
