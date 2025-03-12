@@ -19,19 +19,26 @@ public class Kiosk {
         mainMenuItmes.add(new Menu("Burger"));
         mainMenuItmes.add(new Menu("Side"));
         mainMenuItmes.add(new Menu("Dessert"));
+        mainMenuItmes.add(new Menu("Orders"));
+        mainMenuItmes.add(new Menu("Cancel"));
     }
 
     public void start(){
 
         while (flag){
 
-            System.out.println("[ McDonald Menu]");
+            System.out.println("[ McDonald Menu ]");
 
-            int i = 1;
-            for( Menu menu : mainMenuItmes){
-                System.out.println(i+". " +menu.getCategory());
-                i += 1;
+            int i =1;
+            for(Menu menu: mainMenuItmes){
+                if(menu.getCategory().equals("Orders") && menu.getMenuItemList().isEmpty()){
+                    break;
+                }else {
+                    System.out.println(i + ". " + menu.getCategory());
+                    i++;
+                }
             }
+
             System.out.println("0. 키오스크 종료\n");
 
             choicCategory = inputManager();
@@ -42,13 +49,21 @@ public class Kiosk {
                 if(choicCategory == 0){
                     scn.close();
                     break;
-                }else {
+                } else if (choicCategory == 4) {
+                    System.out.println("[ Order Menu ]");
+
+                    printMenuItemList(menuItem);
+                    System.out.println();
+
+                    continue;
+                } else if (choicCategory == 5) {
+                    mainMenuItmes.get(3).removeOrder();
+                    continue;
+                } else {
                     System.out.println("[ McDonald Menu ]");
-                    i = 1;
-                    for(MenuItem menu : menuItem){
-                        System.out.println(i + ". " + menu.toString());
-                        i += 1;
-                    }
+
+                    printMenuItemList(menuItem);
+
                     System.out.println("0. 카테고리로 돌아가기\n");
                 }
             }catch (IndexOutOfBoundsException e){
@@ -62,14 +77,18 @@ public class Kiosk {
             try {
                 if(choicMenu == 0){
                     continue;
-                }else {
+                } else {
                     System.out.println( "선택한 메뉴 -> " + menuItem.get(choicMenu-1).toString());
+
+
+                    mainMenuItmes.get(3).addOrder(menuItem.get(choicMenu-1));
                 }
             }catch (IndexOutOfBoundsException e){
                 System.out.println("잘못 선택하셨습니다.");
             }
 
             System.out.println();
+
         }
     }
 
@@ -86,7 +105,13 @@ public class Kiosk {
                 scn.nextLine();
             }
         }
-
         return choic;
+    }
+    private static void printMenuItemList(List<MenuItem> menuItem){
+        int i = 1;
+        for(MenuItem menu : menuItem){
+            System.out.println(i + ". " + menu.toString());
+            i += 1;
+        }
     }
 }
