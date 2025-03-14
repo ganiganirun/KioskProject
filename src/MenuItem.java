@@ -16,9 +16,9 @@ public class MenuItem {
 //        return buger;
 //    }
 //
-//    public int getPrice(){
-//        return price;
-//    }
+    public int getPrice(){
+        return price;
+    }
 //
 //    public String getExplan(){
 //        return explan;
