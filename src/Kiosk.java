@@ -1,113 +1,137 @@
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Kiosk {
-    private static Scanner scn = new Scanner(System.in);
-    private boolean flag = true;
-    private int choicCategory;
-    private int choicMenu;
-    private List<Menu> mainMenuItmes;
 
-    public Kiosk(){
-        mainMenuItmes = new ArrayList<>();
-        addCategory();
-    }
+  public static Scanner scn = new Scanner(System.in);
+  private boolean flag = true;
+  private int choicCategory;
+  private int choicMenu;
+  private int choicOrders;
+  private int totalPrice;
+  private final List<Menu> mainMenuItems;
 
-    private void addCategory(){
-        mainMenuItmes.add(new Menu("Burger"));
-        mainMenuItmes.add(new Menu("Side"));
-        mainMenuItmes.add(new Menu("Dessert"));
-        mainMenuItmes.add(new Menu("Orders"));
-        mainMenuItmes.add(new Menu("Cancel"));
-    }
+  public Kiosk() {
+    mainMenuItems = new ArrayList<>();
+    addCategory();
+  }
 
-    public void start(){
+  private void addCategory() {
+    mainMenuItems.add(new Menu("Burger"));
+    mainMenuItems.add(new Menu("Side"));
+    mainMenuItems.add(new Menu("Dessert"));
+    mainMenuItems.add(new Menu("Orders"));
+    mainMenuItems.add(new Menu("Cancel"));
+  }
 
-        while (flag){
+  public void start() {
 
-            System.out.println("[ McDonald Menu ]");
+    while (flag) {
 
-            int i =1;
-            for(Menu menu: mainMenuItmes){
-                if(menu.getCategory().equals("Orders") && menu.getMenuItemList().isEmpty()){
-                    break;
-                }else {
-                    System.out.println(i + ". " + menu.getCategory());
-                    i++;
-                }
-            }
+      System.out.println("[ McDonald Menu ]");
 
-            System.out.println("0. 키오스크 종료\n");
+      int i = 1;
+      for (Menu menu : mainMenuItems) {
+        if (menu.getCategory().equals("Orders") && menu.getMenuItemList().isEmpty()) {
+          break;
+        } else {
+          System.out.println(i + ". " + menu.getCategory());
+          i++;
+        }
+      }
 
-            choicCategory = inputManager(mainMenuItmes.size());
+      System.out.println("0. 키오스크 종료\n");
 
-            List<MenuItem> menuItem =  mainMenuItmes.get(choicCategory-1).getMenuItemList();
+      choicCategory = inputManager(mainMenuItems.size());
 
-            if(choicCategory == 0){
-                scn.close();
-                break;
-            } else if (choicCategory == 4) {
-                System.out.println("[ Order Menu ]");
+      if (choicCategory == 0) {
+        scn.close();
+        break;
+      }
 
-                printMenuItemList(menuItem);
-                System.out.println();
+      List<MenuItem> menuItem = mainMenuItems.get(choicCategory - 1).getMenuItemList();
 
-                continue;
-            } else if (choicCategory == 5) {
-                mainMenuItmes.get(3).removeOrder();
-                continue;
-            } else {
-                System.out.println("[ McDonald Menu ]");
+      if (choicCategory == 4) {
+        System.out.println("[ Order Menu ]");
 
-                printMenuItemList(menuItem);
+        printMenuItemList(menuItem);
+        System.out.println();
 
-                System.out.println("0. 카테고리로 돌아가기\n");
-            }
-            choicMenu = inputManager(menuItem.size());
+        System.out.println("[ Total ]\n" + totalPrice + "원\n");
 
-            System.out.println();
+        System.out.println("1. 주문\t2. 메뉴판");
+        int buy = inputManager(2);
 
-            if(choicMenu == 0){
-                continue;
-            } else {
-                System.out.println( "선택한 메뉴 -> " + menuItem.get(choicMenu-1).toString());
+        if (buy == 1) {
+          System.out.println("\n주문이 완료되었습니다. 금액은 " + totalPrice + "원 입니다.\n");
+          mainMenuItems.get(choicCategory - 1).removeOrder();
+          totalPrice = 0;
+        }
 
-                mainMenuItmes.get(3).addOrder(menuItem.get(choicMenu-1));
-            }
+        continue;
+      } else if (choicCategory == 5) {
+        mainMenuItems.get(3).removeOrder();
+        totalPrice = 0;
+        continue;
+      } else {
+        System.out.println("\n[ McDonald Menu ]");
 
-            System.out.println();
+        printMenuItemList(menuItem);
+
+        System.out.println("0. 카테고리로 돌아가기\n");
+      }
+      choicMenu = inputManager(menuItem.size());
+
+      System.out.println();
+
+      if (choicMenu == 0) {
+        continue;
+      } else {
+        System.out.println("선택한 메뉴 -> " + menuItem.get(choicMenu - 1).toString() + "\n");
+
+        System.out.println("위 메뉴를 장바구니에 추가하겠습니까?\n1.확인\t2.취소\n");
+        choicOrders = inputManager(2);
+
+        if (choicOrders == 1) {
+          mainMenuItems.get(3).addOrder(menuItem.get(choicMenu - 1));
+          totalPrice += menuItem.get(choicMenu - 1).getPrice();
 
         }
+      }
+      System.out.println();
+
+    }
+  }
+
+  public static int inputManager(int size) {
+    int choic;
+    while (true) {
+      try {
+        System.out.println("메뉴를 선택해 주십쇼.");
+        choic = scn.nextInt();
+        scn.nextLine();
+        if (choic > size) {
+          throw new IndexOutOfBoundsException();
+        }
+        break;
+      } catch (InputMismatchException e) {
+        System.out.println("숫자만 입력해주세요.\n");
+        scn.nextLine();
+      } catch (IndexOutOfBoundsException e) {
+        System.out.println("잘못 선택하셨습니다.\n");
+      }
+    }
+    return choic;
+  }
+
+  public static void printMenuItemList(List<MenuItem> menuItem) {
+    int i = 1;
+    for (MenuItem menu : menuItem) {
+      System.out.println(i + ". " + menu.toString());
+      i += 1;
     }
 
-    public static int inputManager(int size){
-        int choic;
-        while (true) {
-            try {
-                System.out.println("메뉴를 선택해 주십쇼.");
-                choic= scn.nextInt();
-                scn.nextLine();
-                if(choic > size) {
-                    throw new IndexOutOfBoundsException();
-                }
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("숫자만 입력해주세요.\n");
-                scn.nextLine();
-            } catch (IndexOutOfBoundsException e){
-                System.out.println("잘못 선택하셨습니다.\n");
-            }
-        }
-        return choic;
-    }
-    public static void printMenuItemList(List<MenuItem> menuItem){
-        int i = 1;
-        for(MenuItem menu : menuItem){
-            System.out.println(i + ". " + menu.toString());
-            i += 1;
-        }
-    }
+  }
 }
